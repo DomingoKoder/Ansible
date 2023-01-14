@@ -1,0 +1,15 @@
+---
+- hosts: csr
+  gather_facts: false
+  connection: network_cli
+  vars:
+    cli:
+      host: "{{ inventory_hostname }}"
+      username: cisco
+      password: cisco
+
+  tasks:
+    - name: backup config
+      ios_config:
+        backup: yes
+        provider: "{{ cli }}"
