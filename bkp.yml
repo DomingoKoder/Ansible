@@ -1,0 +1,19 @@
+---
+- name: Save Configurations (IOS)
+  hosts: all
+  gather_facts: no
+  vars:
+    creds:
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      timeout: "60"
+  tasks:
+    - ios_command:
+        provider: "{{ creds }}"
+        commands: show run
+      register: show_run
+
+    - copy:
+        content: "{{ show_run.stdout[0] }}"
+        dest: "conf/{{ inventory_hostname }}.txt"
